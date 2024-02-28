@@ -30,11 +30,38 @@ export const getWorkspaceById = async (workspaceId: string) => {
   return workspace
 }
 
+export const getWorkspaces = async () => {
+  const { data: workspaces, error } = await supabase
+    .from("workspaces")
+    .select("*")
+    .order("created_at", { ascending: false })
+
+  if (!workspaces) {
+    throw new Error(error.message)
+  }
+
+  return workspaces
+}
+
 export const getWorkspacesByUserId = async (userId: string) => {
   const { data: workspaces, error } = await supabase
     .from("workspaces")
     .select("*")
     .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+
+  if (!workspaces) {
+    throw new Error(error.message)
+  }
+
+  return workspaces
+}
+
+export const getPublicWorkspaces = async () => {
+  const { data: workspaces, error } = await supabase
+    .from("workspaces")
+    .select("*")
+    .eq("sharing", "public")
     .order("created_at", { ascending: false })
 
   if (!workspaces) {

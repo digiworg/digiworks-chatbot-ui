@@ -2,10 +2,7 @@
 
 import { ChatbotUIContext } from "@/context/context"
 import { getProfileByUserId, updateProfile } from "@/db/profile"
-import {
-  getHomeWorkspaceByUserId,
-  getWorkspacesByUserId
-} from "@/db/workspaces"
+import { getHomeWorkspaceByUserId, getWorkspaces } from "@/db/workspaces"
 import {
   fetchHostedModels,
   fetchOpenRouterModels
@@ -143,7 +140,7 @@ export default function SetupPage() {
     const updatedProfile = await updateProfile(profile.id, updateProfilePayload)
     setProfile(updatedProfile)
 
-    const workspaces = await getWorkspacesByUserId(profile.user_id)
+    const workspaces = await getWorkspaces()
     const homeWorkspace = workspaces.find(w => w.is_home)
 
     // There will always be a home workspace
